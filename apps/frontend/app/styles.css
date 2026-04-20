@@ -1,0 +1,130 @@
+:root {
+  --bg: #f2eee5;
+  --panel: #fff9ef;
+  --ink: #1a2626;
+  --brand: #005f73;
+  --brand-2: #ca6702;
+  --high: #9b2226;
+  --medium: #ee9b00;
+  --low: #0a9396;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  color: var(--ink);
+  font-family: "Space Grotesk", "Segoe UI", sans-serif;
+  background:
+    radial-gradient(circle at top right, #ffd7a8 0%, transparent 35%),
+    radial-gradient(circle at 20% 80%, #bde0fe 0%, transparent 40%),
+    var(--bg);
+}
+
+.page {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 2rem 1rem 4rem;
+}
+
+.hero {
+  background: linear-gradient(120deg, var(--brand) 0%, #0a9396 40%, var(--brand-2) 100%);
+  border-radius: 20px;
+  color: #fff;
+  padding: 2rem;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.15);
+  animation: reveal 420ms ease-out;
+}
+
+.hero h1 {
+  margin: 0 0 0.75rem;
+  font-size: clamp(1.8rem, 4vw, 3rem);
+}
+
+.kpi-grid {
+  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.kpi-card {
+  background: var(--panel);
+  border-radius: 14px;
+  padding: 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.kpi-card span {
+  display: block;
+  font-size: 0.85rem;
+}
+
+.kpi-card strong {
+  font-size: 1.6rem;
+}
+
+.table-section {
+  margin-top: 1.3rem;
+  background: var(--panel);
+  border-radius: 16px;
+  padding: 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 0.75rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.chip {
+  border-radius: 999px;
+  color: #fff;
+  font-weight: 600;
+  padding: 0.25rem 0.65rem;
+}
+
+.chip-high {
+  background: var(--high);
+}
+
+.chip-medium {
+  background: var(--medium);
+}
+
+.chip-low {
+  background: var(--low);
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .hero,
+  .table-section,
+  .kpi-card {
+    border-radius: 12px;
+  }
+
+  table {
+    font-size: 0.85rem;
+  }
+}

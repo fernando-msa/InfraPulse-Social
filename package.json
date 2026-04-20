@@ -1,0 +1,18 @@
+{
+  "name": "infrapulse-social",
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "services/*",
+    "jobs/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev -w @infrapulse/backend",
+    "dev:backend": "npm run dev -w @infrapulse/backend",
+    "dev:frontend": "npm run dev -w @infrapulse/frontend",
+    "dev:ai": "npm run dev -w @infrapulse/ai-risk",
+    "ingest": "npm run ingest -w @infrapulse/data-ingestion"
+  }
+}

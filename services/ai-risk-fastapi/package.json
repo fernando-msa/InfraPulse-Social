@@ -1,0 +1,8 @@
+{
+  "name": "@infrapulse/ai-risk",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
+  }
+}
