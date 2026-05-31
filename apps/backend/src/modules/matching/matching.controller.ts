@@ -1,13 +1,15 @@
 import { Body, Controller, Get, Param, Post } from "@nestjs/common";
-import { IsBoolean, IsNumber, IsString, Min } from "class-validator";
+import { IsBoolean, IsNumber, IsString, Matches, Min } from "class-validator";
 import { FamilyProfile } from "../types";
 import { MatchingService } from "./matching.service";
 
 class UpsertFamilyDto {
   @IsString()
+  @Matches(/^[\w-]+$/, { message: "id must contain only alphanumeric characters, underscores, or hyphens" })
   id!: string;
 
   @IsString()
+  @Matches(/^\d+$/, { message: "municipalityCode must be numeric" })
   municipalityCode!: string;
 
   @IsNumber()
@@ -38,7 +40,7 @@ export class MatchingController {
   }
 
   @Get("familias/:id/recomendacoes")
-  recommend(@Param("id") id: string): unknown {
+  recommend(@Param("id") id: string) {
     return this.matchingService.recommendForFamily(id);
   }
 }

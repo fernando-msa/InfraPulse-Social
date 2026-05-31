@@ -5,9 +5,7 @@
   "scripts": {
     "ingest": "ts-node src/main.ts"
   },
-  "dependencies": {
-    "zod": "^3.23.8"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@types/node": "^20.16.5",
     "ts-node": "^10.9.2",

@@ -5,13 +5,7 @@ import { IntegrationsService } from "../sources/integrations.service";
 export class IntelligenceService {
   constructor(private readonly integrationsService: IntegrationsService) {}
 
-  getMunicipalityInsights(limit = 20): Array<{
-    municipalityCode: string;
-    municipalityName: string;
-    socialRiskScore: number;
-    topSignals: string[];
-    updatedAt: string;
-  }> {
+  getMunicipalityInsights(limit = 20) {
     return this.integrationsService
       .getAllSnapshots()
       .slice(0, limit)

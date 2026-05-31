@@ -10,17 +10,21 @@ type ApiResponse = {
   generatedAt: string;
 };
 
-async function fetchInsights(): Promise<ApiResponse> {
+async function fetchInsights(): Promise<ApiResponse | null> {
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE ?? "http://localhost:3001/api";
-  const res = await fetch(`${baseUrl}/v1/intelligence/insights?limit=10`, {
-    cache: "no-store",
-  });
+  try {
+    const res = await fetch(`${baseUrl}/v1/intelligence/insights?limit=10`, {
+      cache: "no-store",
+    });
 
-  if (!res.ok) {
-    throw new Error("Falha ao carregar insights do backend");
+    if (!res.ok) {
+      return null;
+    }
+
+    return (await res.json()) as ApiResponse;
+  } catch {
+    return null;
   }
-
-  return (await res.json()) as ApiResponse;
 }
 
 function scoreClass(score: number): string {
@@ -31,6 +35,24 @@ function scoreClass(score: number): string {
 
 export default async function HomePage() {
   const data = await fetchInsights();
+
+  if (!data || data.items.length === 0) {
+    return (
+      <main className="page">
+        <section className="hero">
+          <h1>InfraPulse Social</h1>
+          <p>
+            Camada de inteligencia e orquestracao social para Sergipe, integrando IVS,
+            programas sociais, emprego, seguranca alimentar, infraestrutura urbana e saude.
+          </p>
+        </section>
+        <section className="table-section">
+          <p>Nao foi possivel carregar os dados. Verifique se o backend esta em execucao.</p>
+        </section>
+      </main>
+    );
+  }
+
   const avg =
     data.items.reduce((acc, item) => acc + item.socialRiskScore, 0) /
     Math.max(1, data.items.length);

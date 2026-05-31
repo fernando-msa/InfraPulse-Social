@@ -1,7 +1,17 @@
+import os
+
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
 app = FastAPI(title="InfraPulse AI Risk Service", version="0.1.0")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[os.getenv("CORS_ORIGIN", "http://localhost:3001")],
+    allow_methods=["GET", "POST"],
+    allow_credentials=True,
+)
 
 
 class RiskInput(BaseModel):

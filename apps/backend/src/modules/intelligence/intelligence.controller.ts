@@ -1,6 +1,17 @@
 import { Controller, Get, Query } from "@nestjs/common";
+import { Type } from "class-transformer";
+import { IsOptional, IsInt, Max, Min } from "class-validator";
 import { IntegrationsService } from "../sources/integrations.service";
 import { IntelligenceService } from "./intelligence.service";
+
+class InsightsQueryDto {
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
+  @Max(200)
+  limit?: number;
+}
 
 @Controller("v1/intelligence")
 export class IntelligenceController {
@@ -10,17 +21,17 @@ export class IntelligenceController {
   ) {}
 
   @Get("insights")
-  getInsights(@Query("limit") limit?: string): unknown {
-    const parsedLimit = Number.parseInt(limit ?? "20", 10);
+  getInsights(@Query() query: InsightsQueryDto) {
+    const limit = query.limit ?? 20;
     return {
-      items: this.intelligenceService.getMunicipalityInsights(parsedLimit),
+      items: this.intelligenceService.getMunicipalityInsights(limit),
       sourceStatus: this.integrationsService.getSourceStatus(),
       generatedAt: new Date().toISOString(),
     };
   }
 
   @Get("mapa-vulnerabilidade")
-  getVulnerabilityMap(): unknown {
+  getVulnerabilityMap() {
     return {
       state: "SE",
       municipalities: this.intelligenceService.getMunicipalityInsights(75),

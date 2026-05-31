@@ -13,6 +13,8 @@
     "dev:backend": "npm run dev -w @infrapulse/backend",
     "dev:frontend": "npm run dev -w @infrapulse/frontend",
     "dev:ai": "npm run dev -w @infrapulse/ai-risk",
-    "ingest": "npm run ingest -w @infrapulse/data-ingestion"
+    "ingest": "npm run ingest -w @infrapulse/data-ingestion",
+    "test": "npm run test -w @infrapulse/backend",
+    "test:cov": "npm run test:cov -w @infrapulse/backend"
   }
 }

@@ -10,22 +10,35 @@ export class IvsConnector implements Connector {
       return this.fallback();
     }
 
-    // MVP parser simplificado: em ambiente produtivo usar parser CSV robusto e validações por schema.
     const rawCsv = await response.text();
     const lines = rawCsv.split("\n").slice(1, 30);
 
-    return lines
-      .map((line) => line.split(";"))
-      .filter((parts) => parts.length > 4)
-      .map((parts) => ({
+    const records: IngestionRecord[] = [];
+    for (const line of lines) {
+      const parts = line.split(";");
+      if (parts.length <= 4) continue;
+
+      const code = parts[0]?.trim();
+      const name = parts[1]?.trim();
+      const rawValue = parts[3]?.trim();
+
+      if (!code || !name || !rawValue) continue;
+      if (!code.startsWith("28")) continue;
+
+      const value = Number.parseFloat(rawValue.replace(",", "."));
+      if (Number.isNaN(value)) continue;
+
+      records.push({
         source: this.sourceName,
-        municipalityCode: parts[0]?.trim() || "",
-        municipalityName: parts[1]?.trim() || "",
+        municipalityCode: code,
+        municipalityName: name,
         metric: "ivs",
-        value: Number.parseFloat((parts[3] || "0").replace(",", ".")) || 0,
+        value,
         referenceDate: "2024-12-31",
-      }))
-      .filter((row) => row.municipalityCode.startsWith("28"));
+      });
+    }
+
+    return records.length > 0 ? records : this.fallback();
   }
 
   private fallback(): IngestionRecord[] {
